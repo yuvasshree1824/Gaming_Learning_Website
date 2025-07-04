@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    text-align: center;
+    padding: 10px;
+}
+
+.game-container {
+    border: 2px solid #4caf50;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 1300px;
+    height: 700px;
+    margin: 0 auto;
+}
+
+
+input {
+    padding: 5px;
+    font-size: 16px;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.star-container {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+#game-result {
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+#feedback {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+#correct-answer {
+    font-size: 16px;
+    font-weight: bold;
+    color: blue;
+}
+
+    </style>
+</head>
+<body>
+    <div>
+        <a href="Main.html"> <img src="photo_and_video/homelogo.jpg"  style="width:50px ;height:50px;margin-bottom: 5px;
+   margin-left: 900px;"></a>
+     </div>
+    <div class="game-container">
+        <h1>CONNECTION !!!</h1>
+        <div id="question-container">
+            <!-- Display image instead of text -->
+            <p id="question"></p>
+            <img id="question-image" src="" alt="Quiz Image" style="width: 500px; height: 400px; margin-bottom: 20px;">
+            <input type="text" id="answer" placeholder="Enter your answer">
+            <button id="submit-btn">Submit</button>
+            <p id="feedback"></p>
+            <p id="correct-answer"></p>
+            <div id="game-result"></div>
+        </div>
+    </div>
+
+    <script>
+    const questions = [
+        { quest:"Which thing used for typing?",image: "photo_and_video/cimage1.jpg", answer: "Keyboard" },
+        { quest:"Guess the bird name",image: "photo_and_video/cimage2.jpg", answer: "Eagle" },
+        { quest:"Guess the state",image: "photo_and_video/cimage3.jpg", answer: "Manipur" },
+        { quest:"Guess the state",image: "photo_and_video/cimage4.jpg", answer: "Bihar" },
+        { quest:"Guess the state",image: "photo_and_video/cimage5.jpg", answer: "Punjab" },
+        { quest:"Guess the state",image: "photo_and_video/cimage26.jpg", answer: "Jharkhand" },
+        { quest:"Guess the state",image: "photo_and_video/cimage27.jpg", answer: "Karnataka" },
+        { quest:"Guess the state",image: "photo_and_video/cimage28.jpg", answer: "Goa" },
+        { quest:"Guess the state",image: "photo_and_video/cimage29.jpg", answer: "Tamilnadu" },
+        { quest:"Guess the state",image: "photo_and_video/cimage30.jpg", answer: "Assam" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage6.jpg", answer: "Mahendra singh dhoni" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage7.jpg", answer: "Albert Einstein" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage8.jpg", answer: "Sachin tendulkar" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage9.jpg", answer: "Virat kohli" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage10.jpg", answer: "Parnab mukherjee" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage11.jpg", answer: "Abdul kalam" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage12.jpg", answer: "Sundhar pitchai" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage13.jpg", answer: "Stephen hawking" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage14.jpg", answer: "Wintson Churchill" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage15.jpg", answer: "bill gates" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage16.jpg", answer: "Mark Zuckerberg" },
+        { quest:"Guess the famous personality",image: "photo_and_video/cimage17.jpg", answer: "Ellen Musk" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage18.jpg", answer: "Viber" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage19.jpg", answer: "Whatsapp" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage20.jpg", answer: "Pinterest" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage21.jpg", answer: "Linkedin" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage22.jpg", answer: "Reddit" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage23.jpg", answer: "Twitter" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage24.jpg", answer: "Tumblr" },
+        { quest:"Guess the social media",image: "photo_and_video/cimage25.jpg", answer: "Messager" }
+    ]
+    
+    let currentQuestionIndex = 0;
+    let stars = 0;
+    let attemptsLeft = 3;
+    let gameOver = false;
+    
+    const questionText = document.getElementById("question");
+    const questionImage = document.getElementById("question-image");
+    const answerInput = document.getElementById("answer");
+    const submitBtn = document.getElementById("submit-btn");
+    const gameResult = document.getElementById("game-result");
+    const feedback = document.getElementById("feedback");
+    const correctAnswerDisplay = document.getElementById("correct-answer");
+    
+    function loadNextQuestion() {
+        if (currentQuestionIndex < questions.length) {
+            const question = questions[currentQuestionIndex];
+            questionText.textContent = question.quest; // Display the question
+            questionImage.src = question.image; // Display the image
+            answerInput.value = "";
+            attemptsLeft = 3;
+            feedback.textContent = "";
+            correctAnswerDisplay.textContent = ""; 
+        } else {
+            gameOver = true;
+            showResult();
+        }
+    }
+    
+    function checkAnswer() {
+        const question = questions[currentQuestionIndex];
+        const userAnswer = String(answerInput.value).trim().toLowerCase();
+        
+        if (userAnswer === question.answer.toLowerCase()) {
+            feedback.textContent = "Correct!";
+            feedback.style.color = "green";
+            stars++;
+            currentQuestionIndex++;
+            setTimeout(loadNextQuestion, 1000);
+        } else {
+            attemptsLeft--;
+            if (attemptsLeft > 0) {
+                feedback.textContent = `Wrong! Try again. (${attemptsLeft} attempt${attemptsLeft !== 1 ? 's' : ''} left)`;
+                feedback.style.color = "red";
+            } else {
+                feedback.textContent = "Out of attempts! The correct answer is shown below.";
+                feedback.style.color = "red";
+                correctAnswerDisplay.textContent = `Correct Answer: ${question.answer}`;
+                correctAnswerDisplay.style.color = "blue";
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadNextQuestion();
+                }, 3000); // Show the correct answer for 3 seconds before moving to next question
+            }
+        }
+    }
+    
+    function showResult() {
+        let starDisplay = "";
+        for (let i = 0; i < stars; i++) {
+            starDisplay += "⭐ ";
+        }
+        gameResult.textContent = `Game Over! You earned ${stars} star${stars !== 1 ? 's' : ''}: `;
+        const starElement = document.createElement('div');
+        starElement.textContent = starDisplay;
+        gameResult.appendChild(starElement);
+        submitBtn.disabled = true;
+    }
+    answerInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent form submission (if applicable)
+            submitBtn.click(); // Trigger the submit button click
+        }
+    });
+    
+    submitBtn.addEventListener("click", checkAnswer);
+    
+    document.addEventListener("DOMContentLoaded", loadNextQuestion);
+    </script>
+</body>
+</html>

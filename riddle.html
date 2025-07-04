@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riddles</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+#quiz-container {
+    width: 1300px;
+    height: 700px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#question-container {
+    margin-bottom: 20px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 16px;
+    background-color:rgb(104, 209, 131);
+    cursor: pointer;
+}
+
+#next-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+
+#reward {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #ffb400;
+}
+
+#correct-answer {
+    font-size: 16px;
+    color: #d9534f;
+    margin-top: 10px;
+}
+
+#message {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+    color: #333;
+}
+
+
+    </style>
+</head>
+<body>
+    <div>
+        <a href="Main.html"> <img src="photo_and_video/homelogo.jpg"  style="width:50px ;height:50px;margin-bottom: 5px;
+   margin-left: 1200px;"></a>
+     </div>
+    <div id="quiz-container">
+        <h1>Riddles !!!</h1>
+        <div id="question-container">
+            <p id="question"></p>
+            <button class="answer-btn" onclick="checkAnswer(0)">Answer 1</button>
+            <button class="answer-btn" onclick="checkAnswer(1)">Answer 2</button>
+            <button class="answer-btn" onclick="checkAnswer(2)">Answer 3</button>
+            <button class="answer-btn" onclick="checkAnswer(3)">Answer 4</button>
+        </div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+        <div id="message"></div>
+        <div id="reward"></div>
+        <div id="correct-answer"></div>
+        
+    </div>
+
+    <script>
+     const questions = [
+     {
+        question: "What word contains 26 letters but only has three syllables?",
+        options: ["Dictionary", "Encyclopedia", "Alphabet", "Thesaurus"],
+        correctAnswer: 2, // Alphabet
+    },
+    {
+        question: "What comes down but never goes up?",
+        options: ["Leaves", "Rain", "Dew", "Hail"],
+        correctAnswer: 1, // Rain
+    },
+    {
+        question: "What five-letter word typed in all capital letters can be read the same upside down?",
+        options: ["SWIMS", "LEVEL", "MOM", "WOW"],
+        correctAnswer: 0, // SWIMS
+    },
+    {
+        question: "The more you take, the more you leave behind. What am I?",
+        options: ["Steps", "Footsteps", "Memories", "Shadows"],
+        correctAnswer: 1, // Footsteps
+    },
+    {
+        question: "David's father has three sons: Snap, Crackle, and _____?",
+        options: ["Chip", "David", "Pop", "Rice"],
+        correctAnswer: 1, // David
+    },
+    {
+        question: "What is more useful when it is broken?",
+        options: ["Glass", "Stick", "Egg", "Mirror"],
+        correctAnswer: 2, // Egg
+    },
+    {
+        question: "I am easy to lift, but hard to throw. What am I?",
+        options: ["Feather", "Balloon", "Bubble", "Paper"],
+        correctAnswer: 0, // Feather
+    },
+    {
+        question: "Which fish costs the most?",
+        options: ["Tuna", "Goldfish", "Salmon", "Caviar"],
+        correctAnswer: 1, // Goldfish
+    },
+    {
+        question: "What goes up, but never comes down?",
+        options: ["Smoke", "Balloon", "Age", "Sun"],
+        correctAnswer: 2, // Age
+    },
+    {
+        question: "I dry as I get wetter?",
+        options: ["Sponge", "Towel", "Mop", "Cloth"],
+        correctAnswer: 1, // Towel
+    },
+    {
+        question: "Nothing rhymes with me exactly, and you’d have a pretty hard time making scrambled eggs without my help?",
+        options: ["Fork", "Spatula", "Whisk", "Ladle"],
+        correctAnswer: 1, // Spatula
+    },
+    {
+        question: "The pot called me black. I said 'look who’s talking?!' Then, I made some tea.",
+        options: ["Cup", "Teapot", "Kettle", "Mug"],
+        correctAnswer: 2, // Kettle
+    },
+    {
+        question: "I make bones hard and cookies soft. Babies love me.",
+        options: ["Juice", "Milk", "Yogurt", "Cheese"],
+        correctAnswer: 1, // Milk
+    },
+    {
+        question: "Is it cold in here, or is it just me? Leave me open, and things will go sour really fast.",
+        options: ["Fridge", "Freezer", "Icebox", "Cooler"],
+        correctAnswer: 0, // Fridge
+    },
+    {
+        question: "I have blades but I’m not a knife. Want to cool down? Give me a whirl.",
+        options: ["Propeller", "Fan", "Windmill", "Helicopter"],
+        correctAnswer: 1, // Fan
+    },
+    {
+        question: "I’m handy for making milkshakes, but don’t put your hand inside of me!",
+        options: ["Juicer", "Mixer", "Blender", "Processor"],
+        correctAnswer: 2, // Blender
+    },
+    {
+        question: "I don’t mind if you’re snotty. If you have an issue, I’m here.",
+        options: ["Napkins", "Tissues", "Handkerchief", "Cotton"],
+        correctAnswer: 1, // Tissues
+    },
+    {
+        question: "My other side is cool, and there’s a good chance my cover’s covered in drool.",
+        options: ["Pillow", "Mattress", "Cushion", "Blanket"],
+        correctAnswer: 0, // Pillow
+    },
+    {
+        question: "I have teeth but no mouth. If a bald man carries me, it’s only for memory’s sake.",
+        options: ["Brush", "Comb", "Razor", "Clipper"],
+        correctAnswer: 1, // Comb
+    },
+    {
+        question: "Seeing double? Check me to spot your doppelganger.",
+        options: ["Glass", "Window", "Mirror", "Lens"],
+        correctAnswer: 2, // Mirror
+    },
+    {
+        question: "I have eyes but cannot see.",
+        options: ["Needle", "Potato", "Button", "Dice"],
+        correctAnswer: 0, // Needle
+    },
+    {
+        question: "I have hands but cannot clap.",
+        options: ["Clock", "Statue", "Glove", "Robot"],
+        correctAnswer: 0, // Clock
+    },
+    {
+        question: "What gets smaller every time it takes a bath?",
+        options: ["Candle", "Ice", "Soap", "Sponge"],
+        correctAnswer: 2, // Soap
+    },
+    {
+        question: "I'm not a blanket, yet I cover the ground; a crystal from heaven that doesn't make a sound. What am I?",
+        options: ["Snowflake", "Dew", "Hail", "Fog"],
+        correctAnswer: 0, // Snowflake
+    },
+    {
+        question: "I have a neck, but no head. I have two arms, but no hands. What am I?",
+        options: ["Jacket", "Shirt", "Sweater", "Coat"],
+        correctAnswer: 1, // Shirt
+    },
+    {
+        question: "What is full of holes but still holds water?",
+        options: ["Sponge", "Net", "Basket", "Pipe"],
+        correctAnswer: 0, // Sponge
+    },
+    {
+        question: "Every night I’m told what to do, and each morning I do what I'm told. But I still don’t escape your scold. What am I?",
+        options: ["Clock", "Calendar", "Alarm", "Watch"],
+        correctAnswer: 2, // Alarm
+    },
+    {
+        question: "What has many rings but no fingers?",
+        options: ["Phone", "Tree", "Bell", "Planet"],
+        correctAnswer: 0, // Phone
+    },
+];
+
+let currentQuestionIndex = 0;
+let chances = 3;
+let score = 0;  // Track the player's score
+
+function loadQuestion() {
+    const question = questions[currentQuestionIndex];
+    document.getElementById("question").textContent = question.question;
+    const buttons = document.querySelectorAll(".answer-btn");
+    buttons.forEach((btn, index) => {
+        btn.textContent = question.options[index];
+        btn.disabled = false;
+    });
+    document.getElementById("message").textContent = `You have ${chances} chances left.`;
+    document.getElementById("reward").textContent = "";
+    document.getElementById("correct-answer").textContent = "";
+    document.getElementById("next-button").style.display = "none";
+}
+
+function nextQuestion() {
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        chances = 3;
+        loadQuestion();
+    } else {
+        showFinalReward();
+        document.getElementById("next-button").style.display = "none";
+    }
+}
+
+function checkAnswer(selectedIndex) {
+    const correctAnswerIndex = questions[currentQuestionIndex].correctAnswer;
+    const message = document.getElementById("message");
+
+    if (selectedIndex === correctAnswerIndex) {
+        let points = 0;
+        if (chances === 3) {
+            points = 3; // Correct on the first try
+        } else if (chances === 2) {
+            points = 2; // Correct on the second try
+        } else if (chances === 1) {
+            points = 1; // Correct on the third try
+        }
+        score += points;
+        
+        message.textContent = `Correct! You earned ${points} points.`;
+        document.getElementById("reward").textContent = ` You earned ⭐️ stars for this question!`;
+        disableOptions();
+        document.getElementById("next-button").style.display = "inline-block";
+    } else {
+        chances--;
+        if (chances > 0) {
+            message.textContent = `Incorrect! You have ${chances} chances left. Try again!`;
+        } else {
+            message.textContent = "Sorry, you're out of chances!";
+            document.getElementById("correct-answer").textContent = `The correct answer is: ${questions[currentQuestionIndex].options[correctAnswerIndex]}`;
+            disableOptions();
+            document.getElementById("next-button").style.display = "inline-block";
+        }
+    }
+}
+
+function disableOptions() {
+    const buttons = document.querySelectorAll(".answer-btn");
+    buttons.forEach(btn => {
+        btn.disabled = true;
+    });
+}
+
+function showFinalReward() {
+    let finalMessage = "";
+    let starMessage = "";
+    
+    if (score === questions.length * 3) {
+        finalMessage = "Outstanding performance!";
+        starMessage = "⭐️⭐️⭐️ Perfect score! You are a master!";
+    } else if (score >= questions.length * 2) {
+        finalMessage = "Great job!";
+        starMessage = "⭐️⭐️ Well done, you're almost there!";
+    } else if (score > 0) {
+        finalMessage = "Good try!";
+        starMessage = "⭐️ Keep practicing, you can improve!";
+    } else {
+        finalMessage = "Better luck next time!";
+        starMessage = "⭐️ Don't give up, try again!";
+    }
+
+    document.getElementById("reward").textContent = `${finalMessage} Your total score is: ${score}`;
+    document.getElementById("correct-answer").textContent = starMessage;
+}
+
+// Initial question load
+loadQuestion();
+
+    </script>
+</body>
+</html>
+

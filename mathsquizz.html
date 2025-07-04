@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths quiz</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    text-align: center;
+    padding: 10px;
+}
+
+
+.game-container {
+    border: 2px solid #4caf50;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 1300px;
+    height: 700px;
+    margin: 0 auto;
+}
+
+
+input {
+    padding: 5px;
+    font-size: 16px;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.star-container {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+#game-result {
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+#feedback {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+#correct-answer {
+    font-size: 16px;
+    font-weight: bold;
+    color: blue;
+}
+
+
+        </style>
+</head>
+<body>
+    <div>
+       <a href="Main.html"> <img src="photo_and_video/homelogo.jpg"  style="width:50px ;height:50px;margin-bottom: 5px;
+  margin-left: 900px;"></a>
+    </div>
+    <div class="game-container">
+        <h1>MATHS QUIZ!!!</h1>
+        <div id="question-container">
+            <!-- Display image instead of text -->
+            <img id="question-image" src="" alt="Question Image" style="width: 300px; height: 400px; margin-bottom: 20px;">
+            <input type="number" id="answer" placeholder="Enter the answer...">
+            <button id="submit-btn" >Submit</button>
+            <p id="feedback"></p>
+            <p id="correct-answer"></p>
+            <div id="game-result"></div>
+    </div>
+
+    <script>
+        const questions = [
+    { image: "photo_and_video/q1.png", answer: "14" },
+    { image: "photo_and_video/q12.png", answer: "3" },
+    { image: "photo_and_video/q3.png", answer: "84" },
+    { image: "photo_and_video/q4.png", answer: "18" },
+    { image: "photo_and_video/q15.png", answer: "6" },
+    { image: "photo_and_video/q6.png", answer: "10" },
+    { image: "photo_and_video/q7.png", answer: "10" },
+    { image: "photo_and_video/q8.png", answer: "4" },
+    { image: "photo_and_video/q9.png", answer: "12" },
+    { image: "photo_and_video/q10.png", answer: "13" },
+    { image: "photo_and_video/q20.png", answer: "7" },
+    { image: "photo_and_video/q11.jpg", answer: "24" },
+    { image: "photo_and_video/q2.jpg", answer: "14" },
+    { image: "photo_and_video/q13.png", answer: "46" },
+    { image: "photo_and_video/q14.png", answer: "25" },
+    { image: "photo_and_video/q5.jpg", answer: "100" },
+    { image: "photo_and_video/q16.png", answer: "70" },
+    { image: "photo_and_video/q17.png", answer: "80" },
+    { image: "photo_and_video/q18.png", answer: "28" },
+    { image: "photo_and_video/q19.png", answer: "40" }
+    ,
+];
+
+let currentQuestionIndex = 0;
+let stars = 0;
+let attemptsLeft = 3;
+let gameOver = false;
+
+const questionImage = document.getElementById("question-image");
+const answerInput = document.getElementById("answer");
+const submitBtn = document.getElementById("submit-btn");
+const gameResult = document.getElementById("game-result");
+const feedback = document.getElementById("feedback");
+const correctAnswerDisplay = document.getElementById("correct-answer");
+
+function loadNextQuestion() {
+    if (currentQuestionIndex < questions.length) {
+        const question = questions[currentQuestionIndex];
+        questionImage.src = question.image;
+        answerInput.value = "";
+        attemptsLeft = 3;
+        feedback.textContent = "";
+        correctAnswerDisplay.textContent = "";
+    } else {
+        gameOver = true;
+        showResult();
+    }
+}
+
+function checkAnswer() {
+    const question = questions[currentQuestionIndex];
+    const userAnswer = answerInput.value.trim().toLowerCase();
+    
+    if (userAnswer === question.answer.toLowerCase()) {
+        feedback.textContent = "Correct!";
+        feedback.style.color = "green";
+        stars++;
+        currentQuestionIndex++;
+        setTimeout(loadNextQuestion, 1000);
+    } else {
+        attemptsLeft--;
+        if (attemptsLeft > 0) {
+            feedback.textContent = `Wrong! Try again. (${attemptsLeft} attempt${attemptsLeft !== 1 ? 's' : ''} left)`;
+            feedback.style.color = "red";
+        } else {
+            feedback.textContent = "Out of attempts! The correct answer is shown below.";
+            feedback.style.color = "red";
+            correctAnswerDisplay.textContent = `Correct Answer: ${question.answer}`;
+            correctAnswerDisplay.style.color = "blue";
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadNextQuestion();
+            }, 3000);
+        }
+    }
+}
+
+function showResult() {
+    let starDisplay = "";
+    for (let i = 0; i < stars; i++) {
+        starDisplay += "⭐ ";
+    }
+
+    gameResult.textContent = `Game Over! You earned ${stars} star${stars !== 1 ? 's' : ''}: `;
+    const starElement = document.createElement('div');
+    starElement.textContent = starDisplay;
+    gameResult.appendChild(starElement);
+
+    submitBtn.disabled = true;
+}
+
+submitBtn.addEventListener("click", checkAnswer);
+
+document.addEventListener("DOMContentLoaded", loadNextQuestion);
+
+answerInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent form submission (if applicable)
+        submitBtn.click(); // Trigger the submit button click
+    }
+});
+
+    </script>
+</body>
+</html>

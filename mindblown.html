@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minblown game</title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 80%;
+    margin: 50px auto;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .image-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .instructions {
+    margin-top: 20px;
+    font-size: 1.2rem;
+  }
+  
+  .letters-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .letter {
+    font-size: 2rem;
+    margin: 5px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .drop-area {
+    width: 300px;
+    height: 50px;
+    border: 2px dashed #4CAF50;
+    margin: 20px auto;
+    padding: 10px;
+  }
+  
+  #reward {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #ff0000;
+  }
+  
+  
+  
+  </style>
+</head>
+<body>
+  <div>
+    <a href="Main.html"> <img src="photo_and_video/homelogo.jpg"  style="width:50px ;height:50px;margin-bottom: 5px;
+margin-left: 900px;"></a>
+ </div>
+  <div class="container">
+    <h1>Guess the word!!!</h1>
+    <div id="game-container">
+      <!-- Game content will be dynamically loaded here -->
+    </div>
+    <div id="message"></div>
+    <div id="reward" class="hidden">
+      <h2>Congratulations! You completed all questions!</h2>
+      <button onclick="restartGame()">Restart Game</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+  { quest: 'Direction of rotation.', image: 'photo_and_video/MIMAGE1.jpg', name: 'CLOCKWISE' },
+  { quest: 'Store for later, Historical records', image: 'photo_and_video/MIMAGE2.jpg', name: 'ARCHIVE' },
+  { quest: 'Earnings', image: 'MIMAGE3.jpg', name: 'INCOME' },
+  { quest: 'Type of energy-emitting substance or thing.', image: 'photo_and_video/MIMAGE4.jpg', name: 'RADIOACTIVE' },
+  { quest: 'Identifying tag', image: 'photo_and_video/MIMAGE5.jpg', name: 'LABEL' },
+  { quest: 'A hot mist', image: 'photo_and_video/MIMAGE6.jpg', name: 'STEAM' },
+  { quest: 'A breach of a law or rule', image: 'photo_and_video/MIMAGE7.jpg', name: 'OFFENCE' },
+  { quest: 'Asians use them to eat food.', image: 'photo_and_video/MIMAGE8.jpg', name: 'CHOPSTICKS' },
+  { quest: 'It is a number', image: 'photo_and_video/MIMAGE9.jpg', name: 'FORTY' },
+  { quest: 'Dull', image: 'photo_and_video/MIMAGE10.jpg', name: 'BORING' },
+  { quest: 'Planned occasion', image: 'photo_and_video/MIMAGE11.jpg', name: 'EVENT' },
+  { quest: 'Kind of laptop from Apple', image: 'photo_and_video/MIMAGE12.jpg', name: 'MACBOOK-AIR' },
+  { quest: 'Operating at high speed', image: 'photo_and_video/MIMAGE14.jpg', name: 'EXPRESS' },
+  { quest: 'Movie industry, city in the USA', image: 'photo_and_video/MIMAGE15.jpg', name: 'HOLLYWOOD' },
+  { quest: 'A distinctive way of pronouncing a language', image: 'photo_and_video/MIMAGE16.jpg', name: 'ACCENT' },
+  { quest: 'An oversimplified image of people or things', image: 'photo_and_video/MIMAGE17.jpg', name: 'STEREOTYPE' },
+  { quest: 'A ribbon placed between the pages of a book', image: 'photo_and_video/MIMAGE18.jpg', name: 'BOOKMARK' },
+  { quest: 'One of the best drinks for hot days', image: 'photo_and_video/MIMAGE19.jpg', name: 'LEMONADE' },
+  { quest: 'Device for typing', image: 'photo_and_video/MIMAGE20.jpg', name: 'KEYBOARD' },
+  { quest: 'A country in Asia', image: 'photo_and_video/MIMAGE23.jpg', name: 'THAILAND' },
+  { quest: 'Taking away one’s property unlawfully', image: 'photo_and_video/MIMAGE25.jpg', name: 'ROBBERY' },
+  { quest: 'A geometric shape', image: 'photo_and_video/MIMAGE26.jpg', name: 'CIRCLE' },
+  { quest: 'Mixture', image: 'photo_and_video/MIMAGE27.jpg', name: 'COMBINATION' },
+  { quest: 'Getting close to someone or something', image: 'photo_and_video/MIMAGE28.jpg', name: 'APPROACH' },
+  { quest: 'To have faith in something', image: 'photo_and_video/MIMAGE29.jpg', name: 'BELIEF' }
+];
+
+let currentQuestionIndex = 0;
+let correctAnswers = 0;
+let userAnswer = [];
+
+function shuffleString(str) {
+  const arr = str.split('');
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.join('');
+}
+
+function renderQuestion() {
+  if (currentQuestionIndex >= questions.length) {
+    showFinalResult();
+    return;
+  }
+
+  const question = questions[currentQuestionIndex];
+  const gameContainer = document.getElementById('game-container');
+  const jumbledAnswer = shuffleString(question.name);
+  userAnswer = [];
+
+  gameContainer.innerHTML = `
+    <div class="question-container">
+      <p class="question-text">${question.quest}</p>
+      <img src="${question.image}" alt="Mystery Image" class="question-image">
+    </div>
+    <div class="instructions">
+      <p>Guess the name of the image by selecting the correct letters or typing your answer:</p>
+    </div>
+    <div class="letters-container" id="letters-container">
+      ${jumbledAnswer.split('').map((letter, index) => `
+        <div class="letter" id="letter-${index}" onclick="handleLetterClick('${letter}')">${letter}</div>
+      `).join('')}
+    </div>
+<input type="text" id="text-answer" placeholder="Type your answer here" onkeydown="handleTyping(event)" style="width: 300px; font-size: 16px; padding: 5px; margin-top: 10px;">
+    <div class="drop-area" id="drop-area">
+      <p>Drop your letters here in the correct order!</p>
+    </div>
+    <p id="message"></p>
+  `;
+}
+
+function handleLetterClick(letter) {
+  const dropArea = document.getElementById('drop-area');
+  const messageElement = document.getElementById('message');
+
+  if (userAnswer.length < questions[currentQuestionIndex].name.length && letter === questions[currentQuestionIndex].name[userAnswer.length]) {
+    userAnswer.push(letter);
+    dropArea.innerHTML = userAnswer.join('');
+    if (userAnswer.join('') === questions[currentQuestionIndex].name) {
+      messageElement.innerHTML = 'Correct! Moving to the next question...';
+      correctAnswers++;
+      setTimeout(() => {
+        currentQuestionIndex++;
+        renderQuestion();
+      }, 1000);
+    } else {
+      messageElement.innerHTML = '';
+    }
+  } else {
+    messageElement.innerHTML = 'Incorrect letter. Try again!';
+  }
+}
+
+function handleTyping(event) {
+  if (event.key === "Enter") {
+    const typedAnswer = document.getElementById("text-answer").value.trim().toUpperCase();
+    const messageElement = document.getElementById("message");
+
+    if (typedAnswer === questions[currentQuestionIndex].name) {
+      messageElement.innerHTML = "Correct! Moving to the next question...";
+      correctAnswers++;
+      setTimeout(() => {
+        currentQuestionIndex++;
+        renderQuestion();
+      }, 1000);
+    } else {
+      messageElement.innerHTML = "Incorrect answer. Try again!";
+    }
+  }
+}
+
+function showFinalResult() {
+  const gameContainer = document.getElementById('game-container');
+  gameContainer.innerHTML = `
+    <div class="final-result">
+      <h2>Game Over!</h2>
+      <p>You answered ${correctAnswers} out of ${questions.length} correctly!</p>
+      <div class="reward-section">
+        <h3>Your Reward:</h3>
+        <p>${getReward(correctAnswers)}</p>
+      </div>
+      <button onclick="restartGame()">Restart Game</button>
+    </div>
+  `;
+}
+
+function getReward(score) {
+  if (score === questions.length) {
+    return '🏆 Gold Medal - Excellent Job!';
+  } else if (score >= questions.length * 0.7) {
+    return '🥈 Silver Medal - Great Work!';
+  } else if (score >= questions.length * 0.4) {
+    return '🥉 Bronze Medal - Good Effort!';
+  } else {
+    return '🎖️ Participation Award - Keep Practicing!';
+  }
+}
+
+function restartGame() {
+  currentQuestionIndex = 0;
+  correctAnswers = 0;
+  renderQuestion();
+}
+
+window.onload = function() {
+  renderQuestion();
+};
+
+
+  </script>
+</body>
+</html>

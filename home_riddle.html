@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1 >Riddles</h1>
+        <nav>
+          <ul>
+            <li><a href="Main.html">Home</a></li>
+          </ul>
+        </nav>
+        
+    </header>
+    <section class="hero">
+        <div class="intro-container">
+            <h2>Welcome to the Riddle Game!</h2>
+            <p>In every riddle, there lies a hidden truth, but only the curious will find it.</p>
+            <div><button id="start-button">Start</button></div>
+            <!-- Container where the video will be displayed -->
+        <div class="video-container" id="videoContainer">
+            <video controls>
+                <source src="photo_and_video/riddles.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+            <div>
+            <button class="video-button" id="showVideoBtn">How to play</button>
+
+        
+        </div>
+        </div>
+    
+    </section>
+    
+    <script>
+        // Get the start button element
+const startButton = document.getElementById('start-button');
+
+// Add event listener for the start button
+startButton.addEventListener('click', function() {
+    // Redirect to the riddles page
+    window.location.href = 'riddle.html';
+});
+document.getElementById('showVideoBtn').addEventListener('click', function() {
+    // Get the video container element
+    const videoContainer = document.getElementById('videoContainer');
+
+    // Toggle the display of the video container
+    if (videoContainer.style.display === 'none' || videoContainer.style.display === '') {
+        videoContainer.style.display = 'block';
+    } else {
+        videoContainer.style.display = 'none';
+    }
+});
+    </script>
+</body>
+</html>
