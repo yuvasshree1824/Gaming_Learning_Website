@@ -12,68 +12,133 @@
     padding: 0;
 }
 
+/* Responsive Quiz Container */
 #quiz-container {
-    width: 1300px;
-    height: 700px;
-    margin: 50px auto;
+    width: 90%;
+    max-width: 1200px;
+    min-height: 400px;
+    margin: 2rem auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
+/* Heading */
 h1 {
     text-align: center;
     color: #333;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    margin-bottom: 1.5rem;
 }
 
 #question-container {
     margin-bottom: 20px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.4;
 }
 
+/* Option buttons */
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 5px 0;
-    font-size: 16px;
-    background-color:rgb(104, 209, 131);
+    font-size: 1rem;
+    background-color: rgb(104, 209, 131);
     cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-#next-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: none;
+button:hover:not(:disabled) {
+    background-color: rgb(80, 180, 110);
 }
 
 button:disabled {
     background-color: #ccc;
+    cursor: not-allowed;
 }
 
+/* Next button */
+#next-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+    transition: background-color 0.3s;
+}
 
+#next-button:hover {
+    background-color: #3e8e41;
+}
+
+/* Reward & Feedback */
 #reward {
     text-align: center;
     margin-top: 20px;
-    font-size: 18px;
+    font-size: 1.2rem;
     color: #ffb400;
 }
 
 #correct-answer {
-    font-size: 16px;
+    font-size: 1rem;
     color: #d9534f;
     margin-top: 10px;
 }
 
 #message {
     text-align: center;
-    font-size: 18px;
+    font-size: 1.2rem;
     margin-top: 10px;
     color: #333;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #quiz-container {
+        padding: 15px;
+        width: 95%;
+    }
+
+    button, #next-button {
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+
+    #question-container {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    #quiz-container {
+        padding: 10px;
+        margin: 1rem auto;
+    }
+
+    button, #next-button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    #reward, #message {
+        font-size: 1rem;
+    }
+}
+        
 
 
     </style>
@@ -81,7 +146,7 @@ button:disabled {
 <body>
     <div>
         <a href="index.html"> <img src="photo_and_video/homelogo.jpg"  style="width:50px ;height:50px;margin-bottom: 5px;
-   margin-left: 1200px;"></a>
+   margin-left: 50%;"></a>
      </div>
     <div id="quiz-container">
         <h1>Riddles !!!</h1>
@@ -339,4 +404,5 @@ loadQuestion();
     </script>
 </body>
 </html>
+
 
