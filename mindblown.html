@@ -6,85 +6,157 @@
   <title>Minblown game</title>
   <style>
     body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    width: 80%;
-    margin: 50px auto;
-  }
-  
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 10px;
+}
+
+/* Title */
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Image container */
+.image-container img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+/* Instructions text */
+.instructions {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+/* Letters container */
+.letters-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.letter {
+  font-size: 1.5rem;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  min-width: 45px;
+  min-height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.letter:hover {
+  background-color: #45a049;
+}
+
+/* Drop area */
+.drop-area {
+  width: 90%;
+  max-width: 350px;
+  min-height: 50px;
+  border: 2px dashed #4CAF50;
+  margin: 20px auto;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+/* Reward box */
+#reward {
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Message */
+#message {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #ff0000;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
   h1 {
-    font-size: 2rem;
-    color: #333;
+    font-size: 1.8rem;
   }
-  
-  .image-container img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    margin-bottom: 20px;
-  }
-  
+
   .instructions {
-    margin-top: 20px;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
-  
-  .letters-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
+
   .letter {
-    font-size: 2rem;
-    margin: 5px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    user-select: none;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 1.3rem;
+    min-width: 40px;
+    min-height: 40px;
   }
-  
-  .drop-area {
-    width: 300px;
-    height: 50px;
-    border: 2px dashed #4CAF50;
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
     margin: 20px auto;
-    padding: 10px;
   }
-  
-  #reward {
-    margin-top: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 20px;
-    border-radius: 5px;
-    display: none;
+
+  h1 {
+    font-size: 1.5rem;
   }
-  
-  .hidden {
-    display: none;
+
+  .instructions {
+    font-size: 0.95rem;
   }
-  
-  #message {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    color: #ff0000;
+
+  .letters-container {
+    gap: 8px;
   }
-  
-  
+
+  .letter {
+    font-size: 1.1rem;
+    min-width: 35px;
+    min-height: 35px;
+  }
+
+  .drop-area {
+    width: 95%;
+    min-height: 45px;
+    font-size: 0.9rem;
+  }
+}
+    
   
   </style>
 </head>
@@ -260,3 +332,4 @@ window.onload = function() {
   </script>
 </body>
 </html>
+
